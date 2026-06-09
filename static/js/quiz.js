@@ -7,16 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("quiz-progress"),
         document.getElementById("quiz-progress-bottom"),
     ].filter(Boolean);
+    const progressFill = document.getElementById("quiz-progress-fill");
 
     function answeredCount() {
         return cards.filter((card) => card.querySelector("input:checked")).length;
     }
 
     function updateProgress() {
-        const text = `Đã trả lời ${answeredCount()}/${cards.length} câu`;
+        const answered = answeredCount();
+        const text = `Đã trả lời ${answered}/${cards.length} câu`;
         progressElements.forEach((element) => {
             element.textContent = text;
         });
+        if (progressFill) {
+            progressFill.style.width = `${cards.length ? (answered / cards.length) * 100 : 0}%`;
+        }
     }
 
     form.addEventListener("change", updateProgress);
@@ -32,4 +37,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateProgress();
 });
-

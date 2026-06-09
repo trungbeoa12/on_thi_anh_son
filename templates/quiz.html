@@ -2,7 +2,7 @@
 {% block title %}Làm bài - Web ôn thi trắc nghiệm{% endblock %}
 {% block content %}
 <div class="quiz-toolbar">
-    <div>
+    <div class="quiz-heading">
         <p class="eyebrow">Bài trắc nghiệm</p>
         <h1>{{ questions | length }} câu hỏi</h1>
         {% if display == "hint" %}
@@ -11,7 +11,12 @@
         <span class="mode-badge exam">Chế độ: Làm bài thật - đã ẩn gợi ý đáp án</span>
         {% endif %}
     </div>
-    <span class="progress-text" id="quiz-progress">Đã trả lời 0/{{ questions | length }} câu</span>
+    <div class="progress-summary">
+        <span class="progress-text" id="quiz-progress">Đã trả lời 0/{{ questions | length }} câu</span>
+        <div class="progress-track" aria-hidden="true">
+            <span class="progress-fill" id="quiz-progress-fill"></span>
+        </div>
+    </div>
 </div>
 
 {% if questions %}
@@ -21,7 +26,7 @@
 
     {% for question in questions %}
     <article class="question-card" data-question-id="{{ question.id }}">
-        <h2>Câu {{ question.question_number }}</h2>
+        <h2><span class="question-number">Câu {{ question.question_number }}</span></h2>
         <div class="question-content">{{ question.display_html | safe }}</div>
         <div class="options-list">
             {% for option in question.options %}
@@ -43,8 +48,11 @@
     {% endfor %}
 
     <div class="submit-bar">
-        <span class="progress-text" id="quiz-progress-bottom">Đã trả lời 0/{{ questions | length }} câu</span>
-        <button class="button button-primary" type="submit">Nộp bài</button>
+        <div class="submit-progress">
+            <span class="progress-text" id="quiz-progress-bottom">Đã trả lời 0/{{ questions | length }} câu</span>
+            <span class="submit-note">Bạn có thể nộp bài khi chưa trả lời hết.</span>
+        </div>
+        <button class="button button-primary submit-button" type="submit">Nộp bài →</button>
     </div>
 </form>
 {% else %}

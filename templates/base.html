@@ -7,17 +7,23 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header class="site-header">
-        <div class="container nav-wrap">
-            <a class="brand" href="{{ url_for('index') }}">Web ôn thi trắc nghiệm</a>
-            <nav>
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="{{ url_for('index') }}">
+                <span class="brand-mark">Q</span>
+                <span>
+                    Web ôn thi trắc nghiệm
+                    <small>Học nhanh, kiểm tra thật</small>
+                </span>
+            </a>
+            <nav class="nav-links">
                 <a href="{{ url_for('index') }}">Trang chủ</a>
-                <a href="{{ url_for('warnings') }}">Warnings</a>
+                <a href="{{ url_for('warnings') }}">Cảnh báo parse</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
+    <main class="container page-container">
         {% if database_error %}
             <section class="alert alert-error">
                 <h1>Lỗi database</h1>
@@ -31,4 +37,3 @@
     {% block scripts %}{% endblock %}
 </body>
 </html>
-
