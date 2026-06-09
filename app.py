@@ -9,6 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from bs4 import BeautifulSoup
 from flask import Flask, g, redirect, render_template, request, session, url_for
 
 
@@ -25,6 +26,43 @@ app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 # Demo không lưu lịch sử lâu dài. Session chỉ giữ result_id nhỏ gọn.
 RESULT_STORE: dict[str, dict[str, Any]] = {}
 MAX_STORED_RESULTS = 100
+
+
+def clean_quiz_html(html_text: str) -> str:
+    """
+    Bỏ định dạng có thể làm lộ đáp án trong chế độ làm bài thật.
+
+    Các tag định dạng được unwrap để giữ nguyên text bên trong. Các style còn
+    sót lại cũng bị xóa, trong khi cấu trúc nội dung như <br> vẫn được giữ.
+    """
+    if not html_text:
+        return ""
+
+    soup = BeautifulSoup(html_text, "html.parser")
+    for tag_name in ("strong", "b", "mark", "span", "em", "i", "u"):
+        for tag in soup.find_all(tag_name):
+            tag.unwrap()
+
+    for tag in soup.find_all(True):
+        tag.attrs.pop("style", None)
+    return str(soup)
+
+
+def apply_display_mode(questions: list[dict], display: str) -> list[dict]:
+    """Gắn display_html cho câu hỏi và option theo chế độ hiển thị."""
+    for question in questions:
+        question["display_html"] = (
+            clean_quiz_html(question["question_html"])
+            if display == "exam"
+            else question["question_html"]
+        )
+        for option in question["options"]:
+            option["display_html"] = (
+                clean_quiz_html(option["option_html"])
+                if display == "exam"
+                else option["option_html"]
+            )
+    return questions
 
 
 def get_db() -> sqlite3.Connection:
@@ -268,14 +306,18 @@ def quiz() -> str:
     mode = request.args.get("mode", "all")
     if mode not in {"all", "random"}:
         mode = "all"
+    display = request.args.get("display", "exam")
+    if display not in {"exam", "hint"}:
+        display = "exam"
     limit = request.args.get("limit", default=20, type=int)
-    questions = get_questions(mode, limit)
+    questions = apply_display_mode(get_questions(mode, limit), display)
     return render_template(
         "quiz.html",
         questions=questions,
         question_ids=",".join(str(q["id"]) for q in questions),
         mode=mode,
         limit=limit,
+        display=display,
     )
 
 
@@ -314,7 +356,16 @@ def question_detail(question_id: int):
     question = get_question_with_options(question_id)
     if question is None:
         return redirect(url_for("warnings"))
-    return render_template("quiz.html", questions=[question], question_ids=str(question_id))
+    display = request.args.get("display", "exam")
+    if display not in {"exam", "hint"}:
+        display = "exam"
+    questions = apply_display_mode([question], display)
+    return render_template(
+        "quiz.html",
+        questions=questions,
+        question_ids=str(question_id),
+        display=display,
+    )
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
 <section class="hero">
     <p class="eyebrow">Ôn tập từ quiz.db</p>
     <h1>Web ôn thi trắc nghiệm</h1>
-    <p>Chọn một chế độ bên dưới để bắt đầu làm bài.</p>
+    <p>Chọn chế độ phù hợp để kiểm tra kiến thức hoặc ôn nhanh đáp án.</p>
 </section>
 
 <section class="stats-grid">
@@ -13,11 +13,29 @@
     <div class="stat-card"><strong>{{ warning_count }}</strong><span>Câu có warning</span></div>
 </section>
 
-<section class="action-grid">
-    <a class="button button-primary" href="{{ url_for('quiz', mode='all') }}">Làm toàn bộ câu hỏi</a>
-    <a class="button" href="{{ url_for('quiz', mode='random', limit=20) }}">Làm 20 câu ngẫu nhiên</a>
-    <a class="button" href="{{ url_for('quiz', mode='random', limit=50) }}">Làm 50 câu ngẫu nhiên</a>
+<section class="mode-section exam-section">
+    <span class="mode-badge exam">Chế độ chính</span>
+    <h2>Làm bài thật</h2>
+    <p>Ẩn chữ đỏ, in đậm và highlight để tránh lộ đáp án.</p>
+    <div class="action-grid">
+        <a class="button button-primary" href="{{ url_for('quiz', mode='random', limit=20, display='exam') }}">Làm bài thật - 20 câu ngẫu nhiên</a>
+        <a class="button button-primary" href="{{ url_for('quiz', mode='random', limit=50, display='exam') }}">Làm bài thật - 50 câu ngẫu nhiên</a>
+        <a class="button button-primary" href="{{ url_for('quiz', mode='all', display='exam') }}">Làm bài thật - Toàn bộ câu hỏi</a>
+    </div>
+</section>
+
+<section class="mode-section hint-section">
+    <span class="mode-badge hint">Chế độ phụ</span>
+    <h2>Ôn có gợi ý</h2>
+    <p>Giữ nguyên định dạng từ file Word để học nhanh đáp án.</p>
+    <div class="action-grid">
+        <a class="button" href="{{ url_for('quiz', mode='random', limit=20, display='hint') }}">Ôn có gợi ý - 20 câu ngẫu nhiên</a>
+        <a class="button" href="{{ url_for('quiz', mode='random', limit=50, display='hint') }}">Ôn có gợi ý - 50 câu ngẫu nhiên</a>
+        <a class="button" href="{{ url_for('quiz', mode='all', display='hint') }}">Ôn có gợi ý - Toàn bộ câu hỏi</a>
+    </div>
+</section>
+
+<section class="warning-action">
     <a class="button button-muted" href="{{ url_for('warnings') }}">Xem danh sách warning</a>
 </section>
 {% endblock %}
-

@@ -26,6 +26,8 @@ http://127.0.0.1:5000
 - Làm toàn bộ câu hỏi
 - Làm 20 câu ngẫu nhiên
 - Làm 50 câu ngẫu nhiên
+- Chế độ làm bài thật ẩn bold, chữ đỏ và highlight
+- Chế độ ôn có gợi ý giữ nguyên định dạng từ Word
 - Nộp bài và chấm điểm
 - Xem kết quả
 - Xem lại đáp án đúng và đáp án đã chọn
@@ -36,7 +38,9 @@ http://127.0.0.1:5000
 - Web app không parse lại Word, chỉ đọc `quiz.db`.
 - File `quiz.db` phải nằm cùng thư mục với `app.py`.
 - Nội dung HTML đã parse được render bằng Jinja2 filter `|safe` để giữ bold,
-  màu đỏ và highlight.
+  màu đỏ và highlight trong chế độ ôn có gợi ý và trang review.
+- Nếu không truyền query param `display`, trang làm bài mặc định dùng
+  `display=exam` để ẩn gợi ý đáp án.
 - Kết quả bài làm được giữ tạm trong RAM của server và không lưu lịch sử lâu dài.
 - Khi server khởi động lại, kết quả tạm sẽ mất.
 

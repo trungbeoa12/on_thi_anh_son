@@ -86,6 +86,29 @@ h2 { margin: 0 0 14px; font-size: 20px; }
 .button-primary:hover { background: var(--primary-dark); }
 .button-muted { border-color: var(--border); color: var(--text); }
 
+.mode-section {
+    margin-bottom: 22px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 4px 16px rgba(24, 34, 48, .05);
+}
+.mode-section h2 { margin-top: 10px; margin-bottom: 6px; }
+.mode-section p { margin-top: 0; color: var(--muted); }
+.exam-section { border-color: #9db5ed; }
+.hint-section { border-color: #e1c76c; background: #fffdf5; }
+.warning-action { margin: 8px 0 30px; }
+.mode-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.mode-badge.exam { color: #17469b; background: #dfeaff; }
+.mode-badge.hint { color: #7a5600; background: #fff0b8; }
+
 .question-card, .result-box, .alert {
     margin: 0 0 20px;
     padding: 24px;
@@ -113,6 +136,7 @@ label.option-item:hover { border-color: #9db5ed; background: #f2f6ff; }
 .question-note { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
 
 .quiz-toolbar, .page-heading { margin-bottom: 22px; }
+.progress-text { font-weight: 700; }
 .submit-bar {
     position: sticky;
     bottom: 12px;
