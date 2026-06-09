@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Kết quả - Web ôn thi trắc nghiệm{% endblock %}
+{% block content %}
+<section class="result-box">
+    <p class="eyebrow">Kết quả bài làm</p>
+    <h1>{{ result.score_percent }}%</h1>
+    <div class="result-grid">
+        <div><strong>{{ result.total }}</strong><span>Tổng số câu</span></div>
+        <div class="text-success"><strong>{{ result.correct }}</strong><span>Đúng</span></div>
+        <div class="text-danger"><strong>{{ result.wrong }}</strong><span>Sai</span></div>
+        <div class="text-warning"><strong>{{ result.unanswered }}</strong><span>Chưa trả lời</span></div>
+    </div>
+    <div class="button-row">
+        <a class="button button-primary" href="{{ url_for('review') }}">Xem lại bài làm</a>
+        <a class="button" href="{{ result.retry_url }}">Làm lại</a>
+        <a class="button button-muted" href="{{ url_for('index') }}">Về trang chủ</a>
+    </div>
+</section>
+{% endblock %}
+

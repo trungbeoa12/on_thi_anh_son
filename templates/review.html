@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Xem lại bài làm{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">Review</p>
+        <h1>Xem lại bài làm</h1>
+    </div>
+    <a class="button" href="{{ url_for('result') }}">Quay lại kết quả</a>
+</div>
+
+{% for item in result["items"] %}
+<article class="question-card review-card {{ 'review-correct' if item.is_correct else ('review-wrong' if item.is_answered else 'review-unanswered') }}">
+    <h2>
+        Câu {{ item.question_number }}
+        <span class="status-badge">
+            {{ 'Đúng' if item.is_correct else ('Sai' if item.is_answered else 'Chưa trả lời') }}
+        </span>
+    </h2>
+    <div class="question-content">{{ item.question_html | safe }}</div>
+    <div class="options-list">
+        {% for option in item.options %}
+        <div class="option-item review-option {{ 'option-correct' if option.is_correct else '' }} {{ 'option-selected-wrong' if option.user_selected and not option.is_correct else '' }}">
+            <span class="option-label">{{ option.label }}.</span>
+            <span class="option-content">{{ option.option_html | safe }}</span>
+            <span class="option-badges">
+                {% if option.is_correct %}<span class="mini-badge correct-badge">Đáp án đúng</span>{% endif %}
+                {% if option.user_selected %}<span class="mini-badge selected-badge">Bạn chọn</span>{% endif %}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</article>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Trang chủ - Web ôn thi trắc nghiệm{% endblock %}
+{% block content %}
+<section class="hero">
+    <p class="eyebrow">Ôn tập từ quiz.db</p>
+    <h1>Web ôn thi trắc nghiệm</h1>
+    <p>Chọn một chế độ bên dưới để bắt đầu làm bài.</p>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card"><strong>{{ question_count }}</strong><span>Câu hỏi</span></div>
+    <div class="stat-card"><strong>{{ option_count }}</strong><span>Đáp án / options</span></div>
+    <div class="stat-card"><strong>{{ warning_count }}</strong><span>Câu có warning</span></div>
+</section>
+
+<section class="action-grid">
+    <a class="button button-primary" href="{{ url_for('quiz', mode='all') }}">Làm toàn bộ câu hỏi</a>
+    <a class="button" href="{{ url_for('quiz', mode='random', limit=20) }}">Làm 20 câu ngẫu nhiên</a>
+    <a class="button" href="{{ url_for('quiz', mode='random', limit=50) }}">Làm 50 câu ngẫu nhiên</a>
+    <a class="button button-muted" href="{{ url_for('warnings') }}">Xem danh sách warning</a>
+</section>
+{% endblock %}
+

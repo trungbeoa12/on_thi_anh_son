@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Web ôn thi trắc nghiệm{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="{{ url_for('index') }}">Web ôn thi trắc nghiệm</a>
+            <nav>
+                <a href="{{ url_for('index') }}">Trang chủ</a>
+                <a href="{{ url_for('warnings') }}">Warnings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if database_error %}
+            <section class="alert alert-error">
+                <h1>Lỗi database</h1>
+                <p>{{ database_error }}</p>
+            </section>
+        {% else %}
+            {% block content %}{% endblock %}
+        {% endif %}
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+

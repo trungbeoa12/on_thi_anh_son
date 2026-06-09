@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Warnings parse{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">Kiểm tra dữ liệu</p>
+        <h1>Danh sách warning parse</h1>
+    </div>
+    <span class="count-badge">{{ warnings | length }} warning</span>
+</div>
+
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Câu</th>
+                <th>Loại warning</th>
+                <th>Thông báo</th>
+                <th>Raw text</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for warning in warnings %}
+            <tr>
+                <td>
+                    {% if warning.question_id %}
+                    <a href="{{ url_for('question_detail', question_id=warning.question_id) }}">{{ warning.question_number }}</a>
+                    {% else %}
+                    {{ warning.question_number }}
+                    {% endif %}
+                </td>
+                <td><code>{{ warning.warning_type }}</code></td>
+                <td>{{ warning.message }}</td>
+                <td>{{ warning.raw_text }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4">Không có warning.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
