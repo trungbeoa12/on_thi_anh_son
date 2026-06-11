@@ -26,6 +26,7 @@ http://127.0.0.1:5000
 - Làm toàn bộ câu hỏi
 - Làm 20 câu ngẫu nhiên
 - Làm 50 câu ngẫu nhiên
+- Làm từng câu một; bấm Next để hiện đáp án rồi chuyển sang câu tiếp theo
 - Chế độ làm bài thật ẩn bold, chữ đỏ và highlight
 - Chế độ ôn có gợi ý giữ nguyên định dạng từ Word
 - Nộp bài và chấm điểm

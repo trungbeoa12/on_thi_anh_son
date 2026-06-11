@@ -12,7 +12,7 @@
         {% endif %}
     </div>
     <div class="progress-summary">
-        <span class="progress-text" id="quiz-progress">Đã trả lời 0/{{ questions | length }} câu</span>
+        <span class="progress-text" id="quiz-progress">Câu 1/{{ questions | length }}</span>
         <div class="progress-track" aria-hidden="true">
             <span class="progress-fill" id="quiz-progress-fill"></span>
         </div>
@@ -25,12 +25,12 @@
     <input type="hidden" name="retry_url" value="{{ request.full_path }}">
 
     {% for question in questions %}
-    <article class="question-card" data-question-id="{{ question.id }}">
+    <article class="question-card quiz-step" data-question-id="{{ question.id }}" data-step="{{ loop.index0 }}">
         <h2><span class="question-number">Câu {{ question.question_number }}</span></h2>
         <div class="question-content">{{ question.display_html | safe }}</div>
         <div class="options-list">
             {% for option in question.options %}
-            <label class="option-item">
+            <label class="option-item quiz-option" data-correct="{{ 'true' if option.is_correct else 'false' }}">
                 <input
                     type="{{ 'checkbox' if question.count_correct > 1 else 'radio' }}"
                     name="q_{{ question.id }}"
@@ -38,21 +38,24 @@
                 >
                 <span class="option-label">{{ option.label }}.</span>
                 <span class="option-content">{{ option.display_html | safe }}</span>
+                <span class="answer-badge correct-answer-badge">Đáp án đúng</span>
+                <span class="answer-badge selected-wrong-badge">Bạn đã chọn</span>
             </label>
             {% endfor %}
         </div>
         {% if question.count_correct > 1 %}
         <p class="question-note">Câu này có nhiều đáp án đúng.</p>
         {% endif %}
+        <div class="answer-feedback" aria-live="polite"></div>
     </article>
     {% endfor %}
 
     <div class="submit-bar">
         <div class="submit-progress">
-            <span class="progress-text" id="quiz-progress-bottom">Đã trả lời 0/{{ questions | length }} câu</span>
-            <span class="submit-note">Bạn có thể nộp bài khi chưa trả lời hết.</span>
+            <span class="progress-text" id="quiz-progress-bottom">Câu 1/{{ questions | length }}</span>
+            <span class="submit-note" id="quiz-action-note">Chọn đáp án, sau đó bấm Next để xem đáp án đúng.</span>
         </div>
-        <button class="button button-primary submit-button" type="submit">Nộp bài →</button>
+        <button class="button button-primary submit-button" id="quiz-next-button" type="button">Next - Xem đáp án →</button>
     </div>
 </form>
 {% else %}
